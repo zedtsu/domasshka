@@ -1,67 +1,35 @@
-import random
 import telebot
 
 def zadacha1():
-    # Задача 1. Создайте пользовательский аналог метода map().
-    def sum(a):
-        return a + 5
+	# Задача 1. Напишите бота для техподдержки. Бот должен записывать обращения пользователей в файл.
+	bot = telebot.TeleBot("")
 
-    spisok = [random.randint(0, 10) for i in range(10)]
-    print(spisok)
-    
-    for i in spisok:
-        a = map(sum, spisok)
-    print(list(a))
+	@bot.message_handler(commands=['start'])
+	def welcome(message):
+		bot.reply_to(message, "Здравствуйте, если вы хотите добавить что-нибудь в тех. поддержку напиишите комманду: /TP")
 
-    spisok2 = []
+	@bot.message_handler(commands=['tp'])
+	def TP(message):
+		bot.reply_to(message, "Вы обратились в тех. поддержку, наишите ваше обращение:")
 
-    for i in spisok:
-        spisok2.append(i + 5)
-    print(spisok2)
+	@bot.message_handler(content_types=['text'])
+	def otvet(message):
+		text = message.text
+		data = open('TP.txt', mode='a', encoding='utf-8')
+		data.write(text)
+		data.close()
+		bot.reply_to(message, 'Спасибо, мы очень ценим ваше мнение!')
+
+	bot.polling()
 
 def zadacha2():
-    # Задача 2. Создайте декоратор, повторяющий функцию заданное количество раз.
-    def summa(func):
-        def decorator(a):
-            print(f'{a} + {a} = ', end=' ')
-            func(a)
-        return decorator
+	# Задача 2. Напишите программу, которая позволяет считывать из файла вопрос, отвечать на него и отправлять ответ обратно пользователю.
+	data= open('text.txt', mode='a', encoding='utf-8')
+	text = input('Введите свой вопрос, мы обработаем его и ответим: ')
+	data.write(f'{text}\n')
+	data.close()
 
-    @summa
-    def sum(a):
-        print(a + 1)
-
-    l = input('Введите сколько раз вы хотите вызвать функицю: ')
-    l = int(l)
-
-    for i in range(l):
-        sum(i)
-
-
-def zadacha3():
-    # Задача 3. Добавьте в telegram-бота игру «Угадай числа». Бот загадывает число от 1 до 1000. Когда игрок угадывает его, бот выводит количество сделанных ходов.
-    bot = telebot.TeleBot("6222578607:AAHO37nA3Ezse6VEfNe60grtgTNR0Mgrnik")
-
-    @bot.message_handler(commands=['game'])
-    def start(message):
-        bot.send_message(message.chat.id, 'Отгдадайте число от 1 до 1000.')
-
-        global number
-        number = random.randint(1, 1000)
-
-    @bot.message_handler(content_types=['game'])
-    def game(message):
-        global number
-        attemps = 0
-        if message.text.isdigit():
-            guess = int(message.text)
-            if guess == number:
-                bot.send_message(message.chat.id, f'Поздравляю! Вы угадали число за {attempts} попыток.')
-            elif guess > number:
-                bot.send_message(message.chat.id, 'Загаданное число меньше.')
-            elif guess < number:
-                bot.send_message(message.chat.id, 'Загаданное число больше.')
-            attempts = attemps + 1
-        else:
-            bot.send_message(message.chat.id, 'Пожалуйста, введите число от 1 до 1000.')
-    bot.polling()
+	data = open('text.txt', mode='r', encoding='utf-8')
+	print(f'Вопрос: {data.readline()}.')
+	print(f'Ответ: я не знаю :D.')
+	data.close()
