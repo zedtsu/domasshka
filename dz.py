@@ -30,11 +30,10 @@ def zadacha2():
         for j in range(i + 1, len(matrix)): 
             if np.array_equal(matrix[i], matrix[j]):
                 if np.array_equal(matrix[:, i], matrix[:, j]):
-                    print(i, j),
-            else:
-                a = a
+                    print(i, j)
+
                
-def zdacha3():
+def zadacha3():
     # Задача 3. Создайте двумерный массив случайного размера. Найдите индексы максимального и минимального элементов в нём.
     # Выведите элементы главной диагонали матрицы в виде одномерного массива.
 
@@ -47,3 +46,5 @@ def zdacha3():
     print(f'Мин: {np.min(matrix)}. Макс: {np.max(matrix)}')
 
     print(f'Главная диагональ: {np.diag(matrix)}')
+
+zadacha2()
