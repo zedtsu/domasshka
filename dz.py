@@ -1,35 +1,49 @@
-import telebot
+import numpy as np
+import random
 
 def zadacha1():
-	# Задача 1. Напишите бота для техподдержки. Бот должен записывать обращения пользователей в файл.
-	bot = telebot.TeleBot("")
+    # Задача 1. Дан список элементов. Используя библиотеку NumPy, подсчитайте количество уникальных элементов в нём.
 
-	@bot.message_handler(commands=['start'])
-	def welcome(message):
-		bot.reply_to(message, "Здравствуйте, если вы хотите добавить что-нибудь в тех. поддержку напиишите комманду: /TP")
+    dlina = int(input('Введите размер списка: '))
+    spisok = np.random.randint(0, 10, dlina)
+    print(spisok)
 
-	@bot.message_handler(commands=['tp'])
-	def TP(message):
-		bot.reply_to(message, "Вы обратились в тех. поддержку, наишите ваше обращение:")
+    spisok2= np.unique(spisok)
 
-	@bot.message_handler(content_types=['text'])
-	def otvet(message):
-		text = message.text
-		data = open('TP.txt', mode='a', encoding='utf-8')
-		data.write(text)
-		data.close()
-		bot.reply_to(message, 'Спасибо, мы очень ценим ваше мнение!')
-
-	bot.polling()
+    print(f'Количесвто уникальных элементов: {len(spisok2)}.')
 
 def zadacha2():
-	# Задача 2. Напишите программу, которая позволяет считывать из файла вопрос, отвечать на него и отправлять ответ обратно пользователю.
-	data= open('text.txt', mode='a', encoding='utf-8')
-	text = input('Введите свой вопрос, мы обработаем его и ответим: ')
-	data.write(f'{text}\n')
-	data.close()
+    # Задача 2. Создайте двумерный массив, размером 5х5. Определите, есть ли в нём одинаковые строки.
 
-	data = open('text.txt', mode='r', encoding='utf-8')
-	print(f'Вопрос: {data.readline()}.')
-	print(f'Ответ: я не знаю :D.')
-	data.close()
+    a = [1, 1, 1, 1, 1]
+    b = [2, 3, 4, 2, 4]
+    c = [4, 6, 2, 4, 5]
+    d = [1, 1, 1, 1, 1]
+    e = [1, 1, 1, 1, 0]
+
+    matrix = [a, b, c, d, e]
+    matrix = np.array(matrix)
+                
+    print(matrix)
+
+    for i in range(len(matrix)):
+        for j in range(i + 1, len(matrix)): 
+            if np.array_equal(matrix[i], matrix[j]):
+                if np.array_equal(matrix[:, i], matrix[:, j]):
+                    print(i, j),
+            else:
+                a = a
+               
+def zdacha3():
+    # Задача 3. Создайте двумерный массив случайного размера. Найдите индексы максимального и минимального элементов в нём.
+    # Выведите элементы главной диагонали матрицы в виде одномерного массива.
+
+    a, b = random.randint(4, 10), random.randint(4, 10)
+
+    matrix = np.random.randint(0, 10, (a, b))
+
+    print(matrix)
+
+    print(f'Мин: {np.min(matrix)}. Макс: {np.max(matrix)}')
+
+    print(f'Главная диагональ: {np.diag(matrix)}')
